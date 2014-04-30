@@ -1,4 +1,5 @@
 require 'timeout'
+require 'time'
 class WindowsDiskUsage < Scout::Plugin
 
   def build_report
@@ -23,7 +24,9 @@ class WindowsDiskUsage < Scout::Plugin
 						report "#{label} MB Sent/sec" => data[index].to_f/1E6
 					end
 				else
-					raise "Couldn't use `typepref` as expected."
+					open('typeperf_error_log.txt', 'a') { |f|
+						f.puts Time.now.asctime + " typeperf failed"
+					}
 				end
 			}
 		rescue Timeout::Error

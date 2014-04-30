@@ -1,4 +1,5 @@
 require 'timeout'
+require 'time'
 class WindowsTableauStatus < Scout::Plugin
 
 	def build_report

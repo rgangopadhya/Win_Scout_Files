@@ -1,4 +1,5 @@
 require 'timeout'
+require 'time'
 class WindowsWriteRate < Scout::Plugin
 
   def build_report
@@ -7,7 +8,9 @@ class WindowsWriteRate < Scout::Plugin
 				if `typeperf \"\\LogicalDisk(*)\\Disk Write Bytes/sec\" -sc 1` =~ /,\"(\d*\.\d*)\"\n/
 					report "Disk Write MB/sec" => $1.to_f/1E6
 				else
-					raise "Couldn't use `typepref` as expected."
+					open('typeperf_error_log.txt', 'a') { |f|
+						f.puts Time.now.asctime + " typeperf failed"
+					}
 				end
 			}
 		rescue Timeout::Error

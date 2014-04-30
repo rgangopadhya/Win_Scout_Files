@@ -1,4 +1,5 @@
 require 'timeout'
+require 'time'
 class WindowsNetworkReceive < Scout::Plugin
   def build_report
 		begin
@@ -21,7 +22,9 @@ class WindowsNetworkReceive < Scout::Plugin
 						report "#{label} MB Received/sec" => data[index].to_f/1E6
 					end
 				else
-					raise "Couldn't use `typepref` as expected."
+					open('typeperf_error_log.txt', 'a') { |f|
+						f.puts Time.now.asctime + " typeperf failed"
+					}
 				end
 			}
 		rescue Timeout::Error
