@@ -1,9 +1,10 @@
 require 'timeout'
+require 'time'
 class WindowsTableauStatus < Scout::Plugin
 
 	def build_report
 		begin
-			Timeout::timeout(20) {  
+			Timeout::timeout(30) {  
 				results = `\"C:\\Program Files\\Tableau\\Tableau Server\\8.1\\bin\\tabadmin.exe\" status -v`
 				if results
 					labels = []
@@ -23,7 +24,9 @@ class WindowsTableauStatus < Scout::Plugin
 				end
 			}
 		rescue Timeout::Error
-			puts "tabladmin status timed out"
+			open('timeoutlog.txt', 'a') { |f|
+				f.puts Time.now.asctime + " tabadmin status timed out"
+			}
 		end
 	end
 end

@@ -7,7 +7,6 @@ class WindowsDiskUsage < Scout::Plugin
 				if results = `typeperf \"\\Network Interface(*)\\Bytes Sent/sec\" -sc 1`
 					labels = []
 					data = []
-					puts results
 					lines = results.split("\n")
 					lines.each do |line|
 						columns = line.split(",")
@@ -15,7 +14,6 @@ class WindowsDiskUsage < Scout::Plugin
 							# puts "---#{column}---"
 							if column.match(/Network Interface\((.+)\)/)
 								labels << $1
-								puts "match!"
 							elsif column.match(/^\"(\d*\.\d*)\"$/)
 								data << $1
 							end

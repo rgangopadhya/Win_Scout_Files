@@ -7,7 +7,6 @@ class WindowsDiskUsage < Scout::Plugin
 				if results = `typeperf \"\\LogicalDisk(*)\\% Free Space\" -sc 1`
 					labels = []
 					data = []
-					puts results
 					lines = results.split("\n")
 					lines.each do |line|
 						columns = line.split(",")
