@@ -4,13 +4,13 @@ class WindowsDiskTime < Scout::Plugin
 
   def build_report
 		begin
-			Timeout::timeout(15) {
-				if `typeperf \"\\LogicalDisk(*)\\% Disk Time\" -sc 1` =~ /,\"(\d*\.\d*)\"\n/
-					report "% Disk Time" => $1.to_f
-				else
-					open('typeperf_error_log.txt', 'a') { |f|
-						f.puts Time.now.asctime + " typeperf failed"
-					}
+			Timeout::timeout(5) {
+				while 1 do
+					result = `typeperf \"\\LogicalDisk(*)\\% Disk Time\" -sc 1` 
+					if result =~ /,\"(\d*\.\d*)\"\n/
+						report "% Disk Time" => $1.to_f
+						break
+					end
 				end
 			}
 		rescue Timeout::Error

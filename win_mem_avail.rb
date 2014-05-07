@@ -4,13 +4,13 @@ class TestWindowsAvailableMemory < Scout::Plugin
 
   def build_report
 		begin
-			Timeout::timeout(15) {
-				if `typeperf \"\\Memory\\Available bytes\" -sc 1` =~ /,\"(\d*\.\d*)\"\n/
-					report "GB Free" => $1.to_f/1E9
-				else
-					open('typeperf_error_log.txt', 'a') { |f|
-						f.puts Time.now.asctime + " typeperf failed"
-					}
+			Timeout::timeout(5) {
+				while 1 do
+					result = `typeperf \"\\Memory\\Available bytes\" -sc 1`
+					if result =~ /,\"(\d*\.\d*)\"\n/
+						report "GB Free" => $1.to_f/1E9
+						break
+					end
 				end
 			}
 		rescue Timeout::Error

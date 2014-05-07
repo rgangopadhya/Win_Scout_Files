@@ -4,7 +4,7 @@ class WindowsCPULoad < Scout::Plugin
 
   def build_report
 		begin
-			Timeout::timeout(15) {
+			Timeout::timeout(5) {
 				while 1 do
 					result = `typeperf \"\\Processor(_Total)\\% Processor Time\" -sc 1`
 					if result =~ /,\"(\d*\.\d*)\"\n/
@@ -14,8 +14,7 @@ class WindowsCPULoad < Scout::Plugin
 				end
 			}
 		rescue Timeout::Error 
-			#puts "windowscpuload timed out"
-			error "Error", $!.message
+			puts "windowscpuload timed out"
 		end
   end
 end

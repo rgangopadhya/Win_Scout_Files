@@ -4,7 +4,7 @@ class WindowsTableauStatus < Scout::Plugin
 
 	def build_report
 		begin
-			Timeout::timeout(20) {  
+			Timeout::timeout(50) {  
 				results = `\"C:\\Program Files\\Tableau\\Tableau Server\\worker\\bin\\tabadmin.exe\" status -v`
 				if results
 					labels = []

@@ -4,7 +4,7 @@ class WindowsDiskUsage < Scout::Plugin
 
   def build_report
 		begin
-			Timeout::timeout(15) {
+			Timeout::timeout(5) {
 				if results = `typeperf \"\\LogicalDisk(*)\\% Free Space\" -sc 1`
 					labels = []
 					data = []
