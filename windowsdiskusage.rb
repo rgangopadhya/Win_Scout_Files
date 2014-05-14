@@ -29,7 +29,9 @@ class WindowsDiskUsage < Scout::Plugin
 				end
 			}
 		rescue Timeout::Error
-			puts "windowsdiskusage timed out"
+			open('timeoutlog.txt', 'a') { |f|
+				f.puts Time.now.asctime + " windowsdiskusage timed out"
+			}
 		end
   end
 end

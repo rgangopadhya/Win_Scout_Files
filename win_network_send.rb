@@ -30,7 +30,9 @@ class WindowsDiskUsage < Scout::Plugin
 				end
 			}
 		rescue Timeout::Error
-			puts "win_network_send timed out"
+			open('timeoutlog.txt', 'a') { |f|
+				f.puts Time.now.asctime + " win_network_send timed out"
+			}
 		end
   end
 end

@@ -14,7 +14,9 @@ class WindowsReadRate < Scout::Plugin
 				end
 			}
 		rescue Timeout::Error
-			puts "win_read_rate timed out"
+			open('timeoutlog.txt', 'a') { |f|
+				f.puts Time.now.asctime + " win_read_rate timed out"
+			}
 		end
   end
 end

@@ -24,7 +24,9 @@ class WindowsTableauStatus < Scout::Plugin
 				end
 			}
 		rescue Timeout::Error
-			puts "tabladmin status timed out"
+			open('timeoutlog.txt', 'a') { |f|
+				f.puts Time.now.asctime + " tabadmin status timed out"
+			}
 		end
 	end
 end

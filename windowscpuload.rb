@@ -14,7 +14,9 @@ class WindowsCPULoad < Scout::Plugin
 				end
 			}
 		rescue Timeout::Error 
-			puts "windowscpuload timed out"
+			open('timeoutlog.txt', 'a') { |f|
+				f.puts Time.now.asctime + " windowscpuload timed out"
+			}
 		end
   end
 end
